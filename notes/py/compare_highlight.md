@@ -26,3 +26,20 @@ df = pd.DataFrame(data,
 |4|C|4|3|1|2|
 
 ## Compare two rows with highlighting
+
+```python
+# Function to compare rows with even group size and highlight the differences.
+
+def highlight_rows(d):
+    df = pd.DataFrame(columns=d.columns, index=d.index)
+
+    for i in range(0,len(d.index),2):
+        if d.loc[i,"grp_size"] % 2 == 0:
+            df.iloc[[i, i+1]] = 'background: None'
+            df.iloc[[i, i+1],d.iloc[i].fillna(0).ne(d.iloc[i+1].fillna(0))] = 'background-color: yellow'
+
+    return df
+
+# How to apply the style
+df.style.apply(highlight_rows, axis=None)
+```
